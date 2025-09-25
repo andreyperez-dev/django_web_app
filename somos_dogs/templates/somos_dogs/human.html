@@ -1,0 +1,86 @@
+{% extends 'somos_dogs/layout.html' %}
+
+{% block title %}
+    {{human.first_name}}
+{% endblock %}
+
+{% block main %}
+    <main class="human-info">
+        <h1>Datos de tu cuenta</h1>
+        <div class="gen-data">
+            <div class="human-data">
+                <div class="human-data-header">
+                    <p><b>Datos personales</b></p>
+                </div>
+                <div class="human-data-content">
+                    <p >
+                        <b>Nombre:</b>
+                        <span class="first_name">{{human.first_name}}</span>
+                    </p>
+                    <p>
+                        <b>Apellido:</b>
+                        <span class="last_name">{{human.last_name}}</span>
+                    </p>
+                    <p>
+                        <b>Teléfono</b>
+                        <span class="phone_number">{{human.phone_number}}</span>
+                    </p>
+                </div>
+                {% if user == human.user %}
+                    <div class="edit-button">
+                        <button class="cbtn edit-human-data">Editar datos</button>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="dogs-data">
+                <div class="dogs-header">
+                    <p><b>Peludos</b></p>
+                </div>
+                <div class="dogs-content">
+                    <ul>
+                        {% for dog in dogs %}
+                            <li><a href="{% url 'dog' dog.name%}">{{dog.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        
+        {% if user == human.user %}
+        <!-- EDIT MODAL -->
+         <div class="modal-container" id="human-modal" data-username="{{user.username}}">
+            <div class="modal">
+                <div class="modal-header">
+                    <h1><b>Editar mis datos</b></h1>
+                    <i class="cls-btn fa-solid fa-xmark"></i>
+                    <div class="errorDiv" id="errorInHumanEdit"></div>
+                </div>
+                <div class="modal-content">
+                    <form id="human-edit-form">
+                        {% csrf_token %}
+                        <div class="edit-fields">
+                            <label><b>Nombre:</b></label>
+                            <textarea id="{{user.username}}_first_name">{{human.first_name}}</textarea>
+                        </div>
+                        <div class="edit-fields">
+                            <label><b>Apellido:</b></label>
+                            <textarea id="{{user.username}}_last_name">{{human.last_name}}</textarea>
+                            
+                        </div>
+                        <div class="edit-fields">
+                            <label><b>Teléfono:</b></label>
+                            <textarea id="{{user.username}}_phone_number">{{human.phone_number}}</textarea>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="cbtn human-edit-btn" id="{{human.first_name}}-edit-btn">Guardar</button>
+                    <button class="cls-btn cbtn" >Cerrar</button>
+                </div>
+            </div>
+         </div>
+         {% endif %}
+    </main>
+{% endblock %}

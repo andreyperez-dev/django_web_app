@@ -1,0 +1,49 @@
+{% extends 'somos_dogs/layout.html' %}
+{% load static %}
+
+{% block title %}
+    {% if plural %}
+        Mis peludos
+    {% else %}
+        Mi peludo
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+<main class="wrapper">
+    {%if dogs|length > 1%}
+        <h1 class="dogs_introduction"><u>¡Tus Peludos!</u></h1>
+    {% else %}
+        <h1 class="dogs_introduction"><u>¡Tu Peludo!</u></h1>
+    {%endif%}
+    {% for dog in dogs %}
+        <!-- FEATURED BOX -->
+        <section class="dogs_featured-box" id="home">
+            <div class="featured-text">
+                <div class="featured-text-card">
+                    <span>¡Hola!</span>
+                </div>
+                <div class="featured-name">
+                    <p> Soy <span class="typedText">{{dog.name}}</span></p>
+                </div>
+                <div class="featured-text-info">
+                    <p>Ingresa a mi perfil para que vea toda mi información</p>
+                </div>
+                <div class="featured-text-btn">
+                    <button class="cbtn btn1"><a href="{% url 'dog' dog.name %}">Ver perfil de {{dog.name}}</a></button>
+                </div>
+            </div>
+            <div class="featured-image">
+                <div class="image">
+                    {% if dog.profile_picture %}
+                        <img src="{{dog.profile_picture.url}}" alt="{{dog.name}}">
+                    {% else %}
+                        <img src="{% static '/somos_dogs/img/1.svg' %}" alt="no-image">
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <hr>
+    {% endfor %}
+</main>
+{% endblock %}

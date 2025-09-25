@@ -1,0 +1,44 @@
+{% extends 'somos_dogs/layout.html' %}
+{% load static %}
+
+{% block main %} 
+        {% if user.is_complete %}
+                <div class="greeting-message">
+                        <h1>¡Hola {{human.first_name}}!</h1>
+                        <h2>¿Qué quieres hacer hoy?</h2>
+                        <ul>
+                                {% if plural %}
+                                        <li><a href="{% url 'dogs' %}">Ver mis peludos | </a></li>
+                                {% else %}
+                                        <li><a href="{% url 'dogs' %}">Ver mi peludo | </a></li>
+                                {% endif %}
+                                <li><a href="{%url 'profile' user.username%}">Ver mi perfil |</a> </li>
+                                <li><a href="#contact">Contactar a somos2 |</a> </li>
+                        </ul>
+                </div>
+        {% else %}
+                <h1>Hola {{user.username}}</h1>
+                
+                <div class="card mx-auto" style="max-width: 500px;">
+                        <div class="card-header">
+                                <h5 style="text-align: center;">Para continuar necesitamos más información tuya, por favor regalanos los siguientes datos</h5>
+                        </div>
+                        <div class="card-body text-center">
+                                <form action="#" method="post" class="additionalUserData">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                                <input type="text" name="first_name" placeholder="Nombre" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                                <input type="text" name="last_name" placeholder="Apellido" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                                <input type="number" name="phone_number" placeholder="Número de telefono" class="form-control">
+                                        </div> 
+                                        <button type="submit" class="btn btn-primary">Guardar e ingresar</button>
+                                </form> 
+                        </div>
+                       
+                </div>
+        {% endif %}
+{% endblock %}

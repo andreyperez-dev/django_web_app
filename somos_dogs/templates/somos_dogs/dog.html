@@ -1,0 +1,210 @@
+{% extends 'somos_dogs/layout.html' %}
+{%load static %}
+
+{% block title%}
+    {{dog.name}}
+{% endblock %}
+
+<!-- MAIN -->
+{% block main %}
+    <main class="wrapper">
+            <!-- FEATURED BOX -->
+        <section class="featured-box" id="home">
+            <div class="featured-text">
+                <div class="featured-text-card">
+                    <span>Peludo</span>
+                </div>
+                <div class="featured-name">
+                    <p> Mi nombre es <span class="typedText">{{dog.name}}</span></p>
+                </div>
+                <div class="featured-text-info">
+                    <p>{{phrase | safe }}</p>
+                </div>
+                <div class="featured-text-btn">
+                    <button class="cbtn btn1"><a href="#courses">Cursos</a></button>
+                    <button class="cbtn"><a href="#information">Información</a></button>
+                </div>
+            </div>
+            <div class="featured-image">
+                <div class="image">
+                    {% if dog.profile_picture %}
+                        <img src="{{dog.profile_picture.url}}" alt="{{dog.name}}">
+                    {% else %}
+                        <img src="{% static '/somos_dogs/img/1.svg' %}" alt="no-image">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="scroll-icon-box">
+                <a href="#contact" class="scroll-btn">
+                    <i class="fa-solid fa-computer-mouse"></i>
+                    <p>Contacto</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- INFORMATION -->
+            <section class="section" id="information">
+            <div class="top-header">
+                <h1>Información</h1>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="information-info">
+                        <h3>Mis cursos</h3>
+                        <p>Buscar un nuevo diseño para remplazar el acordeon y mostrar
+                            los cursos de cada perro.
+                        </p>
+                        <div class="information-btn">
+                            <button class="cbtn">Ver curso</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="data-box">
+                        <div class="data-header">
+                            <h3>Tutor</h3>
+                        </div>
+                        <div class="data-list"> 
+                            <span><b>Nombre: </b>{{human.first_name}}</span>
+                            <span><b>Apellido: </b>{{human.last_name}}</span>
+                            <span><b>Teléfono: </b> {{human.phone_number}}</span>
+                        </div>
+                    </div>
+                        <div class="data-box">
+                        <div class="data-header">
+                            <h3>Peludo</h3>
+                        </div>
+                        <div class="data-list"> 
+                            <span>{{dog.race}}</span>
+                            <span>Ultima sesión</span>
+                            <span>Fecha de nacimiento</span>
+                        </div>
+                    </div>
+                    <div class="data-box">
+                        <div class="data-header">
+                            <h3>Cursos</h3>
+                        </div>
+                        <div class="data-list"> 
+                            {% for course in sessions%}
+                                <span>{{course.course.name}}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </section>
+
+        <!-- COURSES BOX -->
+        <section class="section" id="courses">
+            <div class="top-header">
+                <h1>Cursos</h1>
+            </div>
+            <div class="courses-container">
+                {% if sessions %}
+                    {% for course, sessions in sessions.items %}
+                        <div class="courses-box" data-id="{{course.id}}">
+                            <i class="fa-solid fa-paw"></i>
+                            <h3>{{course.course.name}}</h3>
+                            <label>Da clic para ver las sesiones</label>
+                        </div>
+                        <!-- MODALS -->
+                        <div class="modal-container" id="course-container_{{course.id}}">
+                            <div class="modal">
+                                <div class="modal-header">
+                                    <h1>Sesiones de <b>{{course.course.name}}</b></h1>
+                                    <div class="errorInCourseEdition"></div>
+                                    <form id="courseStatusEditForm_{{course.id}}">
+                                        {% csrf_token %}
+                                        <h3>Estado del curso: <span class="course-status" id="course-status_{{course.id}}">{{course.status}}</span></h3>
+                                    </form>
+                                    <i class="cls-btn fa-solid fa-xmark" data-id="{{course.id}}"></i>
+                                </div>
+                                <div class="modal-content">
+                                    {% for session in sessions %}
+                                        {% if session.course.name == course.course.name %}
+                                        <div class="session">
+                                            <div class="session-information">
+                                                <label><b>Sesión: {{ forloop.counter }} | Nivel: {{ session.level }}</b></label>
+                                            </div>
+                                            <div class="session-description" id="session-container_{{session.id}}">
+                                                <form id="session-edit-form_{{session.id}}">
+                                                    {% csrf_token %}
+                                                    <label><b>Descripción de la sesión:</b> </label>
+                                                    <div class="errorInEdition"></div>
+                                                    <p id="session-description_{{session.id}}">{{session.description}}</p>
+                                                    <p class="modal-date">{{session.date}}</p>
+                                                </form>
+                                            </div>
+                                            <div class="session-button">
+                                                <button class="cbtn modifySession" data-id="{{session.id}}" id="session-edit-btn_{{session.id}}">Modificar sesión</button>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        {% else %}
+                                            <p>{{session.user}}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if user.is_teacher %}
+                                        <div class="add-session">
+                                            <button class=" cbtn add-session-btn" id="add-session_{{course.id}}" data-id="{{course.id}}">Agregar sesión</button>
+                                        </div>
+                                        <div class="new-session" id="new-session_{{course.id}}">
+                                            <form id="sessionForm_{{course.id}}">
+                                                {% csrf_token %}
+                                            </form>
+                                            <h2>Agrega una sesión para {{course.course.name}}</h2>
+                                            <h4>Tutor</h4>
+                                            <select id="session_{{course.id}}_human">
+                                                {% for owner in dog.owner.all %}
+                                                    <option value="{{owner.username}}">{{owner.username}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <h4>Nivel de la sesión</h4>
+                                            <input type="number"  id="session_{{course.id}}_level" placeholder="Nivel de la sesión">
+                                            <h4>Resultado de la sesión</h4>
+                                            <select id="session_{{course.id}}_status">
+                                                <option value="Aprobado">Aprobrado</option>
+                                                <option value="Reprobado">Reprobrado</option>
+                                            </select>
+                                            <h4>Descripción de la sesión</h4>
+                                            <textarea class="sessionTextArea" placeholder="Ingresa la descripción de la nueva sesión" style="padding-top: 10px;"></textarea>
+
+                                            <button class="cbtn save-session" id="save-btn_{{course.id}}">Agregar sesión</button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="cbtn modify-course-status" data-id="{{course.id}}" id="course-edit-btn_{{course.id}}">Modificar estado del curso</button>
+                                    <button class="cls-btn cbtn" data-id="{{course.id}}">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h1>No hay cursos asociados al peludo</h1>
+                {% endif %} 
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+<!-- CUSTOM FOOTER -->
+{% block footer %}
+    <div class="top-footer">
+        <p>Somos2</p>
+    </div>
+    <div class="middle-footer">
+        <ul class="footer-menu">
+            <li class="footer-menu-list">
+                <a href="#home">Inicio</a>
+            </li>
+                            <li class="footer-menu-list">
+                <a href="#information">Información</a>
+            </li>                <li class="footer-menu-list">
+                <a href="#courses">Cursos</a>
+            </li>                <li class="footer-menu-list">
+                <a href="#contact">Contacto</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'somos_dogs/layout.html' %}
+{%load static %}
+
+{% block title%}
+    Ingreso
+{% endblock%}
+
+{% block signing %}
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-register">
+                <form action="{%url 'login' %}" method="post" class="sign-in-form" id="sign-in-form">
+                    {% csrf_token %}
+                    <h2 class="title">Ingresar</h2>
+                    <div id="s_error"></div>
+                    <div class="input-field">
+                        <i class="fa fa-user"></i>
+                        <input type="text" name="username" id="s_username" placeholder="Usuario" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa fa-lock"></i>
+                        <input type="password" name="password" id="s_password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="btn solid">Ingresar</button>
+                    <p class="social-text">O ingresa con</p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        </a>
+                    </div>
+                </form>
+
+                <form action="{%url 'register' %}" method="post" class="register-form" id="register-form">
+                    {% csrf_token %}
+                    <h2 class="title">Registrarse</h2>
+                    <div id="r_error"></div>
+                    <div class="input-field">
+                        <i class="fa fa-user"></i>
+                        <input type="text" name="username"  id="r_username" placeholder="Usuario" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa fa-envelope"></i>
+                        <input type="email" name="email" id="r_email" placeholder="Email" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa fa-lock"></i>
+                        <input type="password" name="password" id="r_password" placeholder="Contraseña" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa fa-lock"></i>
+                        <input type="password" name="confirmation" id="r_confirmation" placeholder="Confirma la contraseña" required>
+                    </div>
+                    <button type="submit" class="btn solid">Registrarse</button>
+                    <p class="social-text">O registrate con</p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>¿Primera vez aquí?</h3>
+                    <p>Haz parte de nuestra comunidad creando una cuenta y registrandote</p>
+                    <button class="btn transparent" id="register-btn">Regístrate</button>
+                </div>
+                <img src="{% static 'somos_dogs/img/1.svg' %}" class="image" alt="">
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>¿Ya tienes una cuenta?</h3>
+                    <p>Accede utilizando tu cuenta</p>
+                    <button class="btn transparent" id="signin-btn">Ingresa</button>
+                </div>
+                <img src="{% static 'somos_dogs/img/2.svg' %}" class="image" alt="">
+            </div>
+        </div>
+    </div>  
+{% endblock %}
+

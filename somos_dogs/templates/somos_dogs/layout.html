@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="es">
+    <head>
+        <title>{% block title %}Somos Dogs{% endblock %}</title>
+        
+        {% if user.is_authenticated %}
+            <link href="{% static 'somos_dogs/styles.css' %}" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <script src="{% static 'somos_dogs/main.js' %}"></script>
+        {% else %}
+            <link href="{% static 'somos_dogs/login.css' %}" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <script src="{% static 'somos_dogs/login.js' %}"></script>
+        {% endif %}
+        <link rel="icon" href="{% static 'somos_dogs/favicon.ico' %}">       
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        {% block script %}
+        {% endblock %}
+    </head>
+    
+    <body>
+        {% if user.is_authenticated %}
+             <div class="container">
+                <!-- HEADER -->
+                 <nav id="header">
+                    <div class="nav-logo">
+                        <a href="{% url 'index'%}">
+                            <img src="{% static 'somos_dogs/logo.png' %}" alt="logo" id="navbar-logo">
+                        </a>
+                    </div>
+                    <div class="nav-menu" id="myNavMenu">
+                        <ul class="nav-menu-list">
+                            <li class="nav-list">
+                                <a href="{% url 'profile' user.username%}" class="nav-link">Mi perfil</a>
+                                <div class="circle"></div>
+                            </li>
+                            <li class="nav-list">
+                                {% if plural %}
+                                    <a href="{% url 'dogs' %}" class="nav-link">Mis peludos</a>
+                                {% else %}
+                                    <a href="{% url 'dogs' %}" class="nav-link">Mi peludo</a>
+                                {% endif %}
+                                <div class="circle"></div>
+                            </li>
+                            {% if user.is_teacher %}
+                                <li class="nav-list">
+                                    <a href="#" class="nav-link">Peludos</a>
+                                    <div class="circle"></div>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                    <div class="nav-button">
+                        <button class="cbtn"><a href="{% url 'logout' %}">Salir</a></button>
+                    </div>
+                    <div class="nav-menu-btn">
+                        <i class="fa-solid fa-bars" id="nav-menu-btn"></i>
+                    </div>
+                 </nav>
+                
+                 <!-- MAIN -->
+                {% block main %}
+                {% endblock %}
+                
+                <!-- FOOTER -->
+                <footer>
+                    <!-- CONTACT BOX -->
+                    <section class="section" id="contact">
+                        <div class="top-header">
+                            <h1>Contáctanos</h1>
+                            <span>¿Tienes alguna duda?, comunícate con nosotros</span>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="contact-info">
+                                    <h2>Contáctanos <i class="fa-regular fa-hand-pointer"></i></h2>
+                                    <p><i class="fa-solid fa-envelope"></i> <b>Email:</b>  contacto@somos2.org</p>
+                                    <p><i class="fa-solid fa-phone"></i> <b>Tel:</b> +57 314 891 8536</p>
+                                    <p><i class="fa-brands fa-instagram"></i> <b>Instagram:</b> Somos2org</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-control">
+                                    <div class="form-inputs">
+                                        <input type="text" class="input-field" placeholder="Nombre">
+                                        <input type="text" class="input-field" placeholder="Email">
+                                    </div>
+                                    <div class="text-area">
+                                        <textarea placeholder="Mensaje"></textarea>
+                                    </div>
+                                    <div class="form-button">
+                                        <button class="cbtn">Enviar <i class="fa-regular fa-paper-plane"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- COSTUM FOOTER -->
+                    {% block footer %}
+                    {% endblock %}
+                    <div class="bottom-footer">
+                        <p>Copyright &copy; <a href="#home" style="text-decoration: none;">Somos2</a> - Todos los derechos reservados</p>
+                    </div>
+                </footer>
+             </div>
+
+        {% else %}
+            <!-- SIGN IN/ REGISTER FORM -->
+            <div class="sig-ing">
+                {% block signing %}
+                {% endblock %}
+            </div>
+
+        {% endif %}
+    </body>
+</html>
