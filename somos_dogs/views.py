@@ -8,21 +8,23 @@ from .models import User, Dog, Race, Human, Course, CourseInfo, Session
 
 def index(request):
     if request.user.is_authenticated:
-        human = Human.objects.get(user=request.user)
-        
+
         if request.method == 'POST':
             first_name = request.POST["first_name"]
             last_name = request.POST["last_name"]
             phone_number = request.POST["phone_number"]
 
-            human.first_name = first_name
-            human.last_name = last_name
-            human.phone_number = phone_number
-            human.save()
+            new_human= human(
+	    	first_name = first_name,
+            	last_name = last_name,
+		phone_number = phone_number
+	    )
+            new_human.save()
             request.user.is_complete = True
             request.user.save()
             return redirect("index")
         else:
+	    human = Human.objects.get(user=request.user) 
             plural = True if Dog.objects.filter(owner=request.user).count() > 1 else False
             return render(request, "somos_dogs/index.html", {
                 "human": human,
