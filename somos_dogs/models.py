@@ -1,8 +1,6 @@
 from django.contrib.auth.models import AbstractUser
-from PIL import Image
-from io import BytesIO
 from django.db import models
-from django.core.files.base import ContentFile
+
 
 # Create your models here.
 class User(AbstractUser):

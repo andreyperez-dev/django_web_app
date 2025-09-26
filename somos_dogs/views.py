@@ -4,32 +4,37 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 import json
 
-from .models import User, Dog, Race, Human, Course, CourseInfo, Session
+from .models import User, Dog, Human, CourseInfo, Session
 
 def index(request):
     if request.user.is_authenticated:
-
-        if request.method == 'POST':
-            first_name = request.POST["first_name"]
-            last_name = request.POST["last_name"]
-            phone_number = request.POST["phone_number"]
-
-            new_human= human(
-	    	first_name = first_name,
-            	last_name = last_name,
-		phone_number = phone_number
-	    )
-            new_human.save()
-            request.user.is_complete = True
-            request.user.save()
-            return redirect("index")
-        else:
-	    human = Human.objects.get(user=request.user) 
+        human = Human.objects.filter(user=request.user).first()
+        
+        if human:
             plural = True if Dog.objects.filter(owner=request.user).count() > 1 else False
             return render(request, "somos_dogs/index.html", {
                 "human": human,
                 "plural": plural
             })
+        
+        else:
+            if request.method == 'POST':
+                first_name = request.POST["first_name"]
+                last_name = request.POST["last_name"]
+                phone_number = request.POST["phone_number"]
+
+                new_human= Human(
+                    user= request.user,
+                    first_name = first_name,
+                    last_name = last_name,
+                    phone_number = phone_number
+                    )
+                new_human.save()
+                request.user.is_complete = True
+                request.user.save()
+                return redirect("index")
+            else:
+                return render(request, "somos_dogs/index.html")
     else:
         return render(request, 'somos_dogs/login-register.html')
 

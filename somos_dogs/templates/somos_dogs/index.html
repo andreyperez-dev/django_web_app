@@ -19,23 +19,23 @@
         {% else %}
                 <h1>Hola {{user.username}}</h1>
                 
-                <div class="card mx-auto" style="max-width: 500px;">
+                <div class="human-creation">
                         <div class="card-header">
                                 <h5 style="text-align: center;">Para continuar necesitamos más información tuya, por favor regalanos los siguientes datos</h5>
                         </div>
-                        <div class="card-body text-center">
+                        <div class="human-inputs">
                                 <form action="#" method="post" class="additionalUserData">
                                         {% csrf_token %}
-                                        <div class="mb-3">
-                                                <input type="text" name="first_name" placeholder="Nombre" class="form-control">
+                                        <div class="#">
+                                                <input type="text" name="first_name" placeholder="Nombre" class="human-input-field">
                                         </div>
-                                        <div class="mb-3">
-                                                <input type="text" name="last_name" placeholder="Apellido" class="form-control">
+                                        <div class="#">
+                                                <input type="text" name="last_name" placeholder="Apellido" class="human-input-field">
                                         </div>
-                                        <div class="mb-3">
-                                                <input type="number" name="phone_number" placeholder="Número de telefono" class="form-control">
+                                        <div class="#">
+                                                <input type="number" name="phone_number" placeholder="Número de telefono" class="human-input-field">
                                         </div> 
-                                        <button type="submit" class="btn btn-primary">Guardar e ingresar</button>
+                                        <button type="submit" class="cbtn" style="width: 100%; margin-top: 10px;">Guardar e ingresar</button>
                                 </form> 
                         </div>
                        
