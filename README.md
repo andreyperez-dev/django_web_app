@@ -1,8 +1,9 @@
 # Somos Dogs Web app
+#### Video Demo:  <[URL HERE](https://youtu.be/UceJ8mM_Ro4)>
 
 **Distinctiveness and Complexity**
 
-This project is different from the other projects developed in the course because:
+This project is different from the Flask Web App because:
 
 - The User interface (UI) is responsive and dynamic, enhancing the user experience when using the app.
 - The app uses a single page sign in - sign up, using responsive and dynamic CSS properties, to slide from one side to another the sign in - sign up form. JavaScript was also used to address each form and to accomplish the interactive UI.
@@ -11,9 +12,9 @@ This project is different from the other projects developed in the course becaus
 
 All these features of this project comply with the distinctiveness requirements.
 
-Regarding the Complexity requirements, those are satisfied with the implementation of:
+This project complexity is based on:
 
-- Project deployment in AWS EC2, allowing access to the app from any browser (url: <http://3.144.127.196/somos_dogs/>).
+- Project deployment in AWS EC2, allowing access to the app from any browser (URL is no longer available)
 - Media handling, allowing dogs to have a profile picture.
 - Custom CSS and JavaScript (even for modals) use, avoiding the use of Bootstrap utils.
 - Frontend JavaScript use for the information sent to the backend, prepopulating fields, sending requests and refreshing applicable fields without the need of reloading the entire page, allowing a better user experience.
@@ -54,7 +55,7 @@ Instead of describing each file of the project, I'm going to describe the conten
 
 **How to run the app**
 
-- Go to <http://3.144.127.196/somos_dogs/>.
+- Run the Django app.
 - Click on "REGISTRATE" to create an account and be able to login.
 - Enter the user, email, password and its confirmation, then click in "REGISTRARTE".
 - As you're a new user the application is going to ask you for additional information, once entered, you will be allowed to access the page.
